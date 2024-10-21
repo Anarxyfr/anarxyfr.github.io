@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NitroHome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Dark background */
+            color: #ffffff; /* White text */
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #6200ea; /* Purple background */
+            color: #ffffff; /* White text */
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3700b3; /* Darker purple on hover */
+        }
+        .favorites {
+            margin-top: 30px;
+        }
+        a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to NitroHome</h1>
+    <input type="text" id="search" placeholder="Search the web...">
+    <button onclick="search()">Search</button>
+
+    <div class="favorites">
+        <h2>Favorite Sites</h2>
+        <a href="https://www.youtube.com" target="_blank">YouTube</a>
+        <a href="https://www.reddit.com" target="_blank">Reddit</a>
+        <a href="https://github.com" target="_blank">GitHub</a>
+        <a href="https://www.wikipedia.org" target="_blank">Wikipedia</a>
+    </div>
+
+    <script>
+        function search() {
+            const query = document.getElementById("search").value;
+            if (query) {
+                const searchUrl = "https://www.google.com/search?q=" + encodeURIComponent(query);
+                window.open(searchUrl, "_self"); // Open search in the same tab
+            }
+        }
+    </script>
+</body>
+</html>
