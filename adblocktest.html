@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adblock Tester</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
+        .container { width: 80%; margin: 20px auto; }
+        .alert { padding: 20px; margin: 20px 0; border: 1px solid #ccc; border-radius: 5px; }
+        .alert-danger { background-color: #f8d7da; color: #721c24; }
+        .alert-success { background-color: #d4edda; color: #155724; }
+        #adProviderList { list-style: none; padding: 0; }
+        #adProviderList li { padding: 5px 0; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Adblock Tester</h1>
+        <div id="result" class="alert"></div>
+        <h3>List of known ad provider domains:</h3>
+        <ul id="adProviderList"></ul>
+    </div>
+
+    <script>
+        const adProviders = [
+            'pubmatic.com', 'ads.yahoo.com', 'doubleclick.net', 'adcash.com', 'popads.net',
+            'adsterra.com', 'adblade.com', 'mediavine.com', 'epom.com', 'infolinks.com',
+            'adf.ly', 'clickadu.com', 'adform.net', 'monumetric.com', 'adroll.com', 'criteo.com',
+            'amazon-adsystem.com', 'exponential.com', 'yimg.com', 'adcolony.com', 'admob.com',
+            'revcontent.com', 'adverline.com', 'flurry.com', 'chartboost.com', 'openx.net', 
+            'bidvertiser.com', 'vibrantmedia.com', 'smowtion.com', 'truvid.com', 'appnexus.com'
+        ];
+
+        function testAdBlock() {
+            const testDomains = adProviders;
+            let blocked = 0;
+            let message = 'No ad blocking detected.';
+            const adProviderList = document.getElementById('adProviderList');
+            adProviderList.innerHTML = '';
+
+            testDomains.forEach(domain => {
+                const img = new Image();
+                img.onload = function() {
+                    if (blocked === 0) {
+                        message = 'Ad blocking detected!';
+                    }
+                };
+                img.onerror = function() {
+                    blocked++;
+                    const listItem = document.createElement('li');
+                    listItem.textContent = domain;
+                    adProviderList.appendChild(listItem);
+                };
+                img.src = `http://${domain}/test.jpg`;
+            });
+
+            document.getElementById('result').className = blocked > 0 ? 'alert alert-danger' : 'alert alert-success';
+            document.getElementById('result').textContent = message;
+        }
+
+        window.onload = testAdBlock;
+    </script>
+
+</body>
+</html>
