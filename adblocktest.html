@@ -12,6 +12,7 @@
         .alert-success { background-color: #d4edda; color: #155724; }
         #adProviderList { list-style: none; padding: 0; }
         #adProviderList li { padding: 5px 0; }
+        .ad-content { padding: 10px; margin: 10px 0; background-color: #e9ecef; border-radius: 5px; }
     </style>
 </head>
 <body>
@@ -19,18 +20,23 @@
     <div class="container">
         <h1>Adblock Tester</h1>
         <div id="result" class="alert"></div>
+        <div id="ads"></div>
         <h3>List of known ad provider domains:</h3>
         <ul id="adProviderList"></ul>
     </div>
 
     <script>
         const adProviders = [
-            'pubmatic.com', 'ads.yahoo.com', 'doubleclick.net', 'adcash.com', 'popads.net',
-            'adsterra.com', 'adblade.com', 'mediavine.com', 'epom.com', 'infolinks.com',
-            'adf.ly', 'clickadu.com', 'adform.net', 'monumetric.com', 'adroll.com', 'criteo.com',
-            'amazon-adsystem.com', 'exponential.com', 'yimg.com', 'adcolony.com', 'admob.com',
-            'revcontent.com', 'adverline.com', 'flurry.com', 'chartboost.com', 'openx.net', 
-            'bidvertiser.com', 'vibrantmedia.com', 'smowtion.com', 'truvid.com', 'appnexus.com'
+            { domain: 'pubmatic.com', adContent: 'This is a test ad from PubMatic.' },
+            { domain: 'ads.yahoo.com', adContent: 'This is a test ad from Yahoo Ads.' },
+            { domain: 'doubleclick.net', adContent: 'This is a test ad from DoubleClick.' },
+            { domain: 'adcash.com', adContent: 'This is a test ad from AdCash.' },
+            { domain: 'popads.net', adContent: 'This is a test ad from PopAds.' },
+            { domain: 'adsterra.com', adContent: 'This is a test ad from Adsterra.' },
+            { domain: 'mediavine.com', adContent: 'This is a test ad from Mediavine.' },
+            { domain: 'epom.com', adContent: 'This is a test ad from Epom.' },
+            { domain: 'infolinks.com', adContent: 'This is a test ad from Infolinks.' },
+            { domain: 'adf.ly', adContent: 'This is a test ad from AdF.ly.' }
         ];
 
         function testAdBlock() {
@@ -38,22 +44,28 @@
             let blocked = 0;
             let message = 'No ad blocking detected.';
             const adProviderList = document.getElementById('adProviderList');
+            const adContainer = document.getElementById('ads');
             adProviderList.innerHTML = '';
+            adContainer.innerHTML = '';
 
-            testDomains.forEach(domain => {
+            testDomains.forEach(provider => {
                 const img = new Image();
                 img.onload = function() {
                     if (blocked === 0) {
                         message = 'Ad blocking detected!';
                     }
+                    const adContent = document.createElement('div');
+                    adContent.className = 'ad-content';
+                    adContent.textContent = provider.adContent;
+                    adContainer.appendChild(adContent);
                 };
                 img.onerror = function() {
                     blocked++;
                     const listItem = document.createElement('li');
-                    listItem.textContent = domain;
+                    listItem.textContent = provider.domain;
                     adProviderList.appendChild(listItem);
                 };
-                img.src = `http://${domain}/test.jpg`;
+                img.src = `http://${provider.domain}/test.jpg`;
             });
 
             document.getElementById('result').className = blocked > 0 ? 'alert alert-danger' : 'alert alert-success';
