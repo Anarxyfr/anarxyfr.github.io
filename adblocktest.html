@@ -3,77 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adblock Tester</title>
+    <title>Ad Blocker Tester</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
-        .container { width: 80%; margin: 20px auto; }
-        .alert { padding: 20px; margin: 20px 0; border: 1px solid #ccc; border-radius: 5px; }
-        .alert-danger { background-color: #f8d7da; color: #721c24; }
-        .alert-success { background-color: #d4edda; color: #155724; }
-        #adProviderList { list-style: none; padding: 0; }
-        #adProviderList li { padding: 5px 0; }
-        .ad-content { padding: 10px; margin: 10px 0; background-color: #e9ecef; border-radius: 5px; }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .ad {
+            width: 300px;
+            height: 250px;
+            background: #f0f0f0;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+        }
+
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .blocked {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .not-blocked {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        #status {
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .link-test {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .small-ad {
+            width: 160px;
+            height: 600px;
+            background: #f0f0f0;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
+    <h1>Ad Blocker Test</h1>
+    <div id="status">Checking ad blocker status...</div>
 
-    <div class="container">
-        <h1>Adblock Tester</h1>
-        <div id="result" class="alert"></div>
-        <div id="ads"></div>
-        <h3>List of known ad provider domains:</h3>
-        <ul id="adProviderList"></ul>
+    <div class="test-container">
+        <h2>Common Ad Elements</h2>
+        
+        <!-- Test 1: Common ad class -->
+        <div class="ad" id="ad1">
+            <a href="https://doubleclick.net/ad/test">Advertisement</a>
+        </div>
+        <div class="result" id="result1">Checking...</div>
+
+        <!-- Test 2: Common ad ID -->
+        <div id="banner-ad" class="ad">
+            <a href="https://googleadservices.com/pagead/test">Banner Advertisement</a>
+        </div>
+        <div class="result" id="result2">Checking...</div>
+
+        <!-- Test 3: Google Adsense-like div -->
+        <div class="adsbygoogle ad" id="ad3">
+            <a href="https://pagead2.googlesyndication.com/pagead/test">Google Ad</a>
+        </div>
+        <div class="result" id="result3">Checking...</div>
+
+        <!-- Test 4: Skyscraper ad -->
+        <div class="small-ad" id="ad4">
+            <a href="https://ads.pubmatic.com/test">Skyscraper Ad</a>
+        </div>
+        <div class="result" id="result4">Checking...</div>
+    </div>
+
+    <div class="test-container">
+        <h2>Ad Network URLs</h2>
+        <div class="link-test" id="link-test1">
+            <a href="https://ad.doubleclick.net/test/ad">DoubleClick Ad Link</a>
+            <div class="result" id="result5">Checking...</div>
+        </div>
+
+        <div class="link-test" id="link-test2">
+            <a href="https://googleadservices.com/pagead/conversion">Google Ad Services Link</a>
+            <div class="result" id="result6">Checking...</div>
+        </div>
+
+        <div class="link-test" id="link-test3">
+            <a href="https://adnxs.com/test">AppNexus Ad Link</a>
+            <div class="result" id="result7">Checking...</div>
+        </div>
+
+        <div class="link-test" id="link-test4">
+            <iframe src="https://googleads.g.doubleclick.net/test" 
+                    width="1" height="1" style="display:none" id="tracking-frame"></iframe>
+            <div class="result" id="result8">Checking...</div>
+        </div>
     </div>
 
     <script>
-        const adProviders = [
-            { domain: 'pubmatic.com', adContent: 'This is a test ad from PubMatic.' },
-            { domain: 'ads.yahoo.com', adContent: 'This is a test ad from Yahoo Ads.' },
-            { domain: 'doubleclick.net', adContent: 'This is a test ad from DoubleClick.' },
-            { domain: 'adcash.com', adContent: 'This is a test ad from AdCash.' },
-            { domain: 'popads.net', adContent: 'This is a test ad from PopAds.' },
-            { domain: 'adsterra.com', adContent: 'This is a test ad from Adsterra.' },
-            { domain: 'mediavine.com', adContent: 'This is a test ad from Mediavine.' },
-            { domain: 'epom.com', adContent: 'This is a test ad from Epom.' },
-            { domain: 'infolinks.com', adContent: 'This is a test ad from Infolinks.' },
-            { domain: 'adf.ly', adContent: 'This is a test ad from AdF.ly.' }
-        ];
-
-        function testAdBlock() {
-            const testDomains = adProviders;
-            let blocked = 0;
-            let message = 'No ad blocking detected.';
-            const adProviderList = document.getElementById('adProviderList');
-            const adContainer = document.getElementById('ads');
-            adProviderList.innerHTML = '';
-            adContainer.innerHTML = '';
-
-            testDomains.forEach(provider => {
-                const img = new Image();
-                img.onload = function() {
-                    if (blocked === 0) {
-                        message = 'Ad blocking detected!';
-                    }
-                    const adContent = document.createElement('div');
-                    adContent.className = 'ad-content';
-                    adContent.textContent = provider.adContent;
-                    adContainer.appendChild(adContent);
-                };
-                img.onerror = function() {
-                    blocked++;
-                    const listItem = document.createElement('li');
-                    listItem.textContent = provider.domain;
-                    adProviderList.appendChild(listItem);
-                };
-                img.src = `http://${provider.domain}/test.jpg`;
-            });
-
-            document.getElementById('result').className = blocked > 0 ? 'alert alert-danger' : 'alert alert-success';
-            document.getElementById('result').textContent = message;
+        function checkElement(elementId, resultId, testName) {
+            setTimeout(() => {
+                const element = document.getElementById(elementId);
+                const result = document.getElementById(resultId);
+                
+                if (!element || element.offsetHeight === 0 || window.getComputedStyle(element).display === 'none') {
+                    result.textContent = `${testName}: Blocked`;
+                    result.classList.add('blocked');
+                    result.classList.remove('not-blocked');
+                } else {
+                    result.textContent = `${testName}: Not blocked`;
+                    result.classList.add('not-blocked');
+                    result.classList.remove('blocked');
+                }
+                updateOverallStatus();
+            }, 1000);
         }
 
-        window.onload = testAdBlock;
-    </script>
+        function checkLink(linkId, resultId, testName) {
+            const link = document.querySelector(`#${linkId} a`);
+            const result = document.getElementById(resultId);
+            
+            // Create a test image with the ad URL
+            const testImg = new Image();
+            testImg.src = link.href;
+            
+            // Set a timeout to check if the image loaded
+            setTimeout(() => {
+                if (testImg.width === 0 || !testImg.complete) {
+                    result.textContent = `${testName}: Blocked`;
+                    result.classList.add('blocked');
+                    result.classList.remove('not-blocked');
+                } else {
+                    result.textContent = `${testName}: Not blocked`;
+                    result.classList.add('not-blocked');
+                    result.classList.remove('blocked');
+                }
+                updateOverallStatus();
+            }, 1000);
+        }
 
+        function updateOverallStatus() {
+            const results = document.getElementsByClassName('result');
+            const blocked = Array.from(results).filter(el => el.classList.contains('blocked')).length;
+            const status = document.getElementById('status');
+
+            if (blocked === 0) {
+                status.textContent = '❌ No ad blocker detected';
+                status.className = 'not-blocked';
+            } else if (blocked === results.length) {
+                status.textContent = '✅ Ad blocker is working effectively';
+                status.className = 'blocked';
+            } else {
+                status.textContent = `⚠️ Ad blocker is partially working (${blocked}/${results.length} tests blocked)`;
+                status.className = 'not-blocked';
+            }
+        }
+
+        // Run element tests
+        checkElement('ad1', 'result1', 'Basic ad class test');
+        checkElement('banner-ad', 'result2', 'Ad ID test');
+        checkElement('ad3', 'result3', 'Google Ads test');
+        checkElement('ad4', 'result4', 'Skyscraper ad test');
+
+        // Run link tests
+        checkLink('link-test1', 'result5', 'DoubleClick URL test');
+        checkLink('link-test2', 'result6', 'Google Ad Services URL test');
+        checkLink('link-test3', 'result7', 'AppNexus URL test');
+        checkElement('tracking-frame', 'result8', 'Tracking iframe test');
+    </script>
 </body>
 </html>
