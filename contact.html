@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Jah</title>
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #f0f0f0;
+      background: linear-gradient(135deg, #1a1a1a, #2b2b4a);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      color: #9f7aea;
+      font-size: 2.5rem;
+      text-align: center;
+    }
+
+    /* Contact Form Styles */
+    .contact-form {
+      background: #262640;
+      padding: 30px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-form h2 {
+      color: #9f7aea;
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .contact-form p {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #bbb;
+    }
+
+    .contact-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #f0f0f0;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      background: #1f1f38;
+      color: #f0f0f0;
+      font-size: 1rem;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: #888;
+    }
+
+    .contact-form button {
+      width: 100%;
+      padding: 10px 15px;
+      background: #9f7aea;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .contact-form button:hover {
+      background: #6b46c1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Contact Me</h1>
+    </header>
+    <main>
+      <section class="contact-form">
+        <h2>Get in Touch</h2>
+        <p>Feel free to send me a message for any inquires, or questions, using the form below. I'll get back to you as soon as I can!</p>
+        <form
+          action="https://formspree.io/f/mqaawarg"
+          method="POST"
+        >
+          <label for="email">Your Email:</label>
+          <input type="email" id="email" name="email" placeholder="example@email.com" required>
+          
+          <label for="message">Your Message:</label>
+          <textarea id="message" name="message" placeholder="Type your message here..." rows="5" required></textarea>
+          
+          <button type="submit">Send</button>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
