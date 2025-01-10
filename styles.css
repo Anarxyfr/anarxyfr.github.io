@@ -1,0 +1,109 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #f0f0f0;
+  background: linear-gradient(135deg, #1a1a1a, #2b2b4a);
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 30%;
+  background: #1f1f38;
+  padding: 20px;
+  text-align: center;
+}
+
+.sidebar img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.sidebar h1 {
+  color: #9f7aea;
+  margin-bottom: 10px;
+}
+
+.sidebar p {
+  color: #bbb;
+}
+
+/* Content Area Styles */
+.content {
+  width: 70%;
+  padding: 40px;
+}
+
+.about {
+  background: #262640;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.about h2 {
+  color: #9f7aea;
+}
+
+.about button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #9f7aea;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.about button:hover {
+  background: #6b46c1;
+}
+
+/* Portfolio Styles */
+header h1 {
+  color: #9f7aea;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.projects {
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+.projects ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.projects ul li {
+  margin: 10px 0;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.categories button {
+  padding: 10px 20px;
+  background: #9f7aea;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.categories button:hover {
+  background: #6b46c1;
+}
