@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Video Player</title>
+  <meta charset="UTF-8">
+  <title>Secure Video Embed</title>
   <style>
     html, body {
       margin: 0;
@@ -10,37 +11,137 @@
       height: 100%;
       overflow: hidden;
     }
+
     iframe {
       width: 100vw;
       height: 100vh;
       border: none;
     }
+
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      color: #fff;
+      font-family: sans-serif;
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .spinner {
+      margin-top: 20px;
+      border: 5px solid #444;
+      border-top: 5px solid #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 
-  <!-- Disable DevTools -->
+  <!-- (Optional) Disable DevTools -->
   <script disable-devtool-auto
-    src="https://cdn.jsdelivr.net/npm/disable-devtool@0.3.6/disable-devtool.min.js">
+    src="">
   </script>
 
-  <!-- Anti-iframe protection -->
+  <!-- Anti-iframe takeover -->
   <script>
     if (window.top !== window.self) {
       window.top.location = window.self.location;
     }
   </script>
-
-  <!-- Disable right-click -->
-  <script>
-    document.addEventListener('contextmenu', e => e.preventDefault());
-  </script>
 </head>
 <body>
-  <iframe id="player" allowfullscreen></iframe>
+
+  <!-- Loading Overlay -->
+  <div id="overlay">
+    <div>Loading video...</div>
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Embed Player -->
+  <iframe
+    id="player"
+    allowfullscreen
+    sandbox="allow-scripts allow-same-origin"
+  ></iframe>
 
   <script>
-    const encoded = "aHR0cHM6Ly92aWRzcmMueHl6L2VtYmVkL3R0MzU2NjgzNA=="; // Your obfuscated embed
+    // Your obfuscated embed URL
+    const encoded = "aHR0cHM6Ly92aWRzcmMueHl6L2VtYmVkL3R0MzU2NjgzNA==";
     const decoded = atob(encoded);
     document.getElementById("player").src = decoded;
+
+    // 🔐 Safe domains (only allow requests to these)
+    const ALLOWED_ORIGINS = [
+      "https://edgedeliverynetwork.net"
+    ];
+
+function isSafeUrl(url) {
+  try {
+    return url.startsWith("https://edgedeliverynetwork.net/");
+  } catch (e) {
+    return false;
+  }
+}
+
+
+    setTimeout(() => {
+      // Remove the overlay
+      document.getElementById("overlay")?.remove();
+
+      // Lock down network activity after iframe load
+      const originalFetch = window.fetch;
+      window.fetch = (url, ...args) => {
+        if (typeof url === "string" && isSafeUrl(url)) {
+          return originalFetch(url, ...args);
+        }
+        throw new Error("🚫 Blocked fetch to: " + url);
+      };
+
+      const OriginalXHR = window.XMLHttpRequest;
+      function SafeXHR() {
+        const xhr = new OriginalXHR();
+        const open = xhr.open;
+        xhr.open = function (method, url, ...args) {
+          if (isSafeUrl(url)) {
+            return open.call(this, method, url, ...args);
+          }
+          throw new Error("🚫 Blocked XHR to: " + url);
+        };
+        return xhr;
+      }
+      window.XMLHttpRequest = SafeXHR;
+
+      navigator.sendBeacon = function (url) {
+        if (isSafeUrl(url)) return true;
+        console.warn("🚫 Blocked beacon to: " + url);
+        return false;
+      };
+
+      window.OriginalWebSocket = window.WebSocket;
+      window.WebSocket = function (url) {
+        if (isSafeUrl(url)) {
+          return new window.OriginalWebSocket(url);
+        }
+        throw new Error("🚫 Blocked WebSocket to: " + url);
+      };
+
+      window.open = () => null;
+
+      console.log("🔒 Lockdown active: Only edgedeliverynetwork.net allowed.");
+    }, 5000);
   </script>
+
 </body>
 </html>
