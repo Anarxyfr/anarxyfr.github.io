@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Movie Service</title>
+  <title>Video Player</title>
   <style>
     body { margin: 0; background: #000; }
     iframe { width: 100vw; height: 100vh; border: none; }
   </style>
+  <!-- Disable DevTools -->
+  <script disable-devtool-auto 
+          src="https://cdn.jsdelivr.net/npm/disable-devtool@0.3.6/disable-devtool.min.js">
+  </script>
 </head>
 <body>
   <iframe id="player" allowfullscreen></iframe>
 
   <script>
-    // Base64 encoded URL of: https://vidsrc.xyz/embed/tt3566834
-    const encoded = "aHR0cHM6Ly92aWRzcmCueHl6L2VtYmVkL3R0MzU2NjgzNA==";
-    const url = atob(encoded);
-
-    document.getElementById("player").src = url;
+    const encoded = "aHR0cHM6Ly92aWRzcmMueHl6L2VtYmVkL3R0MzU2NjgzNA=="; // Your Base64 embed link
+    const decoded = atob(encoded);
+    document.getElementById("player").src = decoded;
   </script>
 </body>
 </html>
