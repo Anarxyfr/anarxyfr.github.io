@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Secure Video Embed</title>
+  <title>Secure Embed Lockdown</title>
   <style>
     html, body {
       margin: 0;
@@ -11,16 +11,15 @@
       height: 100%;
       overflow: hidden;
     }
-
     iframe {
       width: 100vw;
       height: 100vh;
       border: none;
     }
-
     #overlay {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
       background: #000;
@@ -32,7 +31,6 @@
       justify-content: center;
       flex-direction: column;
     }
-
     .spinner {
       margin-top: 20px;
       border: 5px solid #444;
@@ -42,70 +40,48 @@
       height: 40px;
       animation: spin 1s linear infinite;
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
   </style>
-
-  <!-- (Optional) Disable DevTools -->
-  <script disable-devtool-auto
-    src="">
-  </script>
-
-  <!-- Anti-iframe takeover -->
-  <script>
-    if (window.top !== window.self) {
-      window.top.location = window.self.location;
-    }
-  </script>
 </head>
 <body>
-
-  <!-- Loading Overlay -->
   <div id="overlay">
     <div>Loading video...</div>
     <div class="spinner"></div>
   </div>
 
-  <!-- Embed Player -->
-  <iframe
-    id="player"
-    allowfullscreen
-    sandbox="allow-scripts allow-same-origin"
-  ></iframe>
+  <iframe id="player" allowfullscreen></iframe>
 
   <script>
-    // Your obfuscated embed URL
+    const SAFE_URL = "https://vidsrc.xyz/sbx.html";
+    const BLOCKED_DOMAINS = ["matiealloy.top", "al.matiealloy.top", "sq", "yourvm"];
+    const ALLOWED_TAGS = ["PJSdiv", "svg"];
+
+    const isBlockedUrl = (url) => {
+      try {
+        const parsed = new URL(url);
+        return BLOCKED_DOMAINS.some(domain =>
+          parsed.hostname.endsWith(domain) || parsed.hostname.startsWith(domain)
+        );
+      } catch {
+        return false;
+      }
+    };
+
     const encoded = "aHR0cHM6Ly92aWRzcmMueHl6L2VtYmVkL3R0MzU2NjgzNA==";
     const decoded = atob(encoded);
     document.getElementById("player").src = decoded;
 
-    // 🔐 Safe domains (only allow requests to these)
-    const ALLOWED_ORIGINS = [
-      "https://edgedeliverynetwork.net"
-    ];
-
-function isSafeUrl(url) {
-  try {
-    return url.startsWith("https://edgedeliverynetwork.net/");
-  } catch (e) {
-    return false;
-  }
-}
-
-
     setTimeout(() => {
-      // Remove the overlay
       document.getElementById("overlay")?.remove();
 
-      // Lock down network activity after iframe load
       const originalFetch = window.fetch;
       window.fetch = (url, ...args) => {
-        if (typeof url === "string" && isSafeUrl(url)) {
-          return originalFetch(url, ...args);
-        }
+        if (typeof url !== "string") url = url.url;
+        if (isBlockedUrl(url)) throw new Error("🚫 Blocked fetch to: " + url);
+        if (url.startsWith(SAFE_URL)) return originalFetch(url, ...args);
         throw new Error("🚫 Blocked fetch to: " + url);
       };
 
@@ -113,35 +89,95 @@ function isSafeUrl(url) {
       function SafeXHR() {
         const xhr = new OriginalXHR();
         const open = xhr.open;
-        xhr.open = function (method, url, ...args) {
-          if (isSafeUrl(url)) {
-            return open.call(this, method, url, ...args);
-          }
+        xhr.open = function(method, url, ...args) {
+          if (isBlockedUrl(url)) throw new Error("🚫 Blocked XHR to: " + url);
+          if (url.startsWith(SAFE_URL)) return open.call(this, method, url, ...args);
           throw new Error("🚫 Blocked XHR to: " + url);
         };
         return xhr;
       }
       window.XMLHttpRequest = SafeXHR;
 
-      navigator.sendBeacon = function (url) {
-        if (isSafeUrl(url)) return true;
+      navigator.sendBeacon = function(url) {
+        if (isBlockedUrl(url)) return false;
+        if (url.startsWith(SAFE_URL)) return true;
         console.warn("🚫 Blocked beacon to: " + url);
         return false;
       };
 
-      window.OriginalWebSocket = window.WebSocket;
-      window.WebSocket = function (url) {
-        if (isSafeUrl(url)) {
-          return new window.OriginalWebSocket(url);
-        }
+      const OriginalWS = window.WebSocket;
+      window.WebSocket = function(url, protocols) {
+        if (isBlockedUrl(url)) throw new Error("🚫 Blocked WebSocket to: " + url);
+        if (url.startsWith(SAFE_URL)) return new OriginalWS(url, protocols);
         throw new Error("🚫 Blocked WebSocket to: " + url);
       };
 
       window.open = () => null;
 
-      console.log("🔒 Lockdown active: Only edgedeliverynetwork.net allowed.");
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach(m => {
+          m.addedNodes.forEach(n => {
+            if (n.tagName === 'SCRIPT' && !n.src.includes("vidsrc.xyz")) {
+              console.warn("🚫 Blocking injected script:", n.src);
+              n.remove();
+            }
+          });
+        });
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+
+      ["iframe", "img", "script"].forEach(tag => {
+        const realCreate = document.createElement;
+        document.createElement = function(type) {
+          if (type.toLowerCase() === tag) {
+            const el = realCreate.call(document, type);
+            Object.defineProperty(el, "src", {
+              set(value) {
+                if (isBlockedUrl(value) || !value.includes("vidsrc.xyz")) {
+                  console.warn("🚫 Blocked sneaky src:", value);
+                  return;
+                }
+                el.setAttribute("src", value);
+              },
+              get() { return el.getAttribute("src"); }
+            });
+            return el;
+          }
+          return realCreate.call(document, type);
+        };
+      });
+
+      const blockEverythingElse = () => {
+        let id = setTimeout(() => {}, 0);
+        while (id--) clearTimeout(id);
+        id = setInterval(() => {}, 0);
+        while (id--) clearInterval(id);
+        window.eval = () => { throw new Error("Blocked eval"); };
+        window.Function = function() { throw new Error("Blocked Function constructor"); };
+        window.setTimeout = () => {};
+        window.setInterval = () => {};
+        window.requestAnimationFrame = () => {};
+
+        const clean = (node) => {
+          if (node.nodeType !== 1) return false;
+          return !ALLOWED_TAGS.includes(node.tagName);
+        };
+
+        document.querySelectorAll("*").forEach(el => {
+          if (clean(el)) {
+            try {
+              el.onclick = el.onmouseenter = el.onmouseover = el.onmousedown = el.onmouseup = null;
+            } catch {}
+          }
+        });
+
+        Object.freeze(window);
+        Object.freeze(document);
+      };
+
+      blockEverythingElse();
+      console.log("✅ Lockdown complete: only trusted content runs.");
     }, 5000);
   </script>
-
 </body>
 </html>
