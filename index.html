@@ -3,19 +3,42 @@
 <head>
   <title>Video Player</title>
   <style>
-    body { margin: 0; background: #000; }
-    iframe { width: 100vw; height: 100vh; border: none; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      height: 100%;
+      overflow: hidden;
+    }
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+    }
   </style>
+
   <!-- Disable DevTools -->
-  <script disable-devtool-auto 
-          src="https://cdn.jsdelivr.net/npm/disable-devtool@0.3.6/disable-devtool.min.js">
+  <script disable-devtool-auto
+    src="https://cdn.jsdelivr.net/npm/disable-devtool@0.3.6/disable-devtool.min.js">
+  </script>
+
+  <!-- Anti-iframe protection -->
+  <script>
+    if (window.top !== window.self) {
+      window.top.location = window.self.location;
+    }
+  </script>
+
+  <!-- Disable right-click -->
+  <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
   </script>
 </head>
 <body>
   <iframe id="player" allowfullscreen></iframe>
 
   <script>
-    const encoded = "aHR0cHM6Ly92aWRzcmMueHl6L2VtYmVkL3R0MzU2NjgzNA=="; // Your Base64 embed link
+    const encoded = "aHR0cHM6Ly92aWRzcmMueHl6L2VtYmVkL3R0MzU2NjgzNA=="; // Your obfuscated embed
     const decoded = atob(encoded);
     document.getElementById("player").src = decoded;
   </script>
