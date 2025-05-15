@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GOONSMP</title>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .sub {
+      color: #aaa;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .ip {
+      background-color: #1e1e1e;
+      display: inline-block;
+      padding: 1rem 2rem;
+      font-size: 1.4rem;
+      border-radius: 8px;
+      font-family: monospace;
+      cursor: pointer;
+      user-select: all;
+      transition: background 0.2s;
+    }
+
+    .ip:hover {
+      background-color: #2b2b2b;
+    }
+
+    .discord {
+      display: inline-block;
+      margin-top: 2rem;
+      background-color: #5865F2;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .discord:hover {
+      background-color: #4752c4;
+    }
+
+    footer {
+      margin-top: 4rem;
+      color: #666;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>GOONSMP</h1>
+  <p class="sub">The hardest lifesteal server out. Join now.</p>
+
+  <div class="ip" onclick="copyIP()">play.goonsmp.plus</div>
+  <p style="margin-top: 0.5rem;">Click to copy</p>
+
+  <a class="discord" href="https://discord.gg/yourserver" target="_blank">Join the Discord</a>
+
+  <footer>&copy; 2025 GOONSMP. Built for the goons.</footer>
+
+  <script>
+    function copyIP() {
+      navigator.clipboard.writeText("play.goonsmp.plus")
+        .then(() => alert("IP copied to clipboard!"))
+        .catch(() => alert("Failed to copy IP"));
+    }
+  </script>
+</body>
+</html>
