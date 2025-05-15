@@ -2,95 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GOONSMP</title>
   <style>
     body {
-      background-color: #0f0f0f;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      text-align: center;
       margin: 0;
-      padding: 2rem;
+      padding: 0;
+      background-color: #0f0f0f;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
     }
 
-    #logo {
-      width: 120px;
-      height: auto;
-      border-radius: 12px;
-      margin-bottom: 1rem;
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .logo {
+      width: 100px;
+      border-radius: 16px;
     }
 
     h1 {
       font-size: 3rem;
-      margin-bottom: 0.3rem;
+      margin-top: 1rem;
     }
 
     .sub {
       color: #aaa;
-      font-size: 1.1rem;
       margin-bottom: 2rem;
     }
 
-    .ip {
-      background-color: #1e1e1e;
-      display: inline-block;
-      padding: 1rem 2rem;
-      font-size: 1.4rem;
-      border-radius: 8px;
+    .ip-box {
+      background: #1e1e1e;
       font-family: monospace;
-      cursor: pointer;
-      user-select: all;
-      transition: background 0.2s;
-    }
-
-    .ip:hover {
-      background-color: #2b2b2b;
-    }
-
-    .discord {
+      font-size: 1.3rem;
+      padding: 1rem 2rem;
       display: inline-block;
-      margin-top: 2rem;
-      background-color: #5865F2;
+      border-radius: 10px;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .ip-box:hover {
+      background: #2c2c2c;
+    }
+
+    .discord-btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      background: #5865F2;
       color: white;
-      padding: 0.8rem 1.5rem;
-      border-radius: 6px;
+      padding: 0.8rem 2rem;
       text-decoration: none;
       font-weight: bold;
-      transition: background 0.2s;
-    }
-
-    .discord:hover {
-      background-color: #4752c4;
-    }
-
-    footer {
-      margin-top: 4rem;
-      color: #666;
-      font-size: 0.9rem;
-    }
-
-    .alert {
-      display: none;
-      background-color: #22c55e;
-      color: black;
-      padding: 0.7rem;
-      font-weight: bold;
-      border-radius: 6px;
-      width: fit-content;
-      margin: 0 auto 1.5rem auto;
-      animation: fadein 0.5s ease;
-    }
-
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(-10px); }
-      to   { opacity: 1; transform: translateY(0); }
+      border-radius: 8px;
+      font-size: 1rem;
     }
 
     .news {
+      background: #181818;
+      padding: 2rem;
       margin-top: 3rem;
-      padding-top: 1rem;
-      border-top: 1px solid #333;
+      border-radius: 12px;
     }
 
     .news h2 {
@@ -98,57 +75,81 @@
       margin-bottom: 1rem;
     }
 
+    .news-banner {
+      background: #f9a825;
+      color: #000;
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
     .news p {
       color: #ccc;
       font-size: 1rem;
-      margin: 0.5rem 0;
     }
 
-    .banner {
-      margin: 1.5rem auto;
-      background-color: #ff8800;
+    .copy-alert {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #22c55e;
       color: #000;
-      font-weight: bold;
-      padding: 0.8rem 1.5rem;
+      padding: 0.5rem 1rem;
       border-radius: 8px;
-      width: fit-content;
-      display: inline-block;
+      font-weight: bold;
+      z-index: 9999;
+      animation: fadein 0.3s ease;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      text-align: center;
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 3rem;
+      padding-bottom: 2rem;
     }
   </style>
 </head>
 <body>
+  <div class="copy-alert" id="alert">Copied!</div>
+  <div class="container">
+    <img class="logo" src="gooner.jpg" alt="GOONSMP Logo">
+    <h1>GOONSMP</h1>
+    <p class="sub">The realest lifesteal server out. Join now.</p>
 
-  <img id="logo" src="gooner.jpg" alt="GOONSMP Logo">
+    <div class="ip-box" onclick="copyIP()">play.goonsmp.plus</div>
+    <p style="color: #999; margin-top: 0.5rem;">Click to copy</p>
 
-  <h1>GOONSMP</h1>
-  <p class="sub">The realest lifesteal server out. Join now.</p>
+    <a class="discord-btn" href="https://discord.gg/yourserver" target="_blank">Join the Discord</a>
 
-  <div id="alert" class="alert">Copied!</div>
-
-  <div class="ip" onclick="copyIP()">play.goonsmp.plus</div>
-  <p style="margin-top: 0.5rem;">Click to copy</p>
-
-  <a class="discord" href="https://discord.gg/yourserver" target="_blank">Join the Discord</a>
-
-  <div class="news">
-    <h2>📰 News</h2>
-    <div class="banner">Server resets every 6 months</div>
-    <p><strong>First 5 players</strong> to join can become <strong>server mods</strong> and may earn <strong>OP access</strong>. Get in early and rise with the goons.</p>
+    <div class="news">
+      <h2>📰 News</h2>
+      <div class="news-banner">Server resets every 6 months</div>
+      <p><strong>First 5 players</strong> to join can become <strong>server mods</strong> and may earn <strong>OP access</strong>. Get in early and rise with the goons.</p>
+    </div>
   </div>
 
-  <footer>&copy; 2025 GOONSMP. No rules, only goons.</footer>
+  <footer>
+    &copy; 2025 GOONSMP. No rules, only goons.
+  </footer>
 
   <script>
     function copyIP() {
       navigator.clipboard.writeText("play.goonsmp.plus").then(() => {
         const alertBox = document.getElementById("alert");
         alertBox.style.display = "block";
-        setTimeout(() => {
-          alertBox.style.display = "none";
-        }, 2500);
+        setTimeout(() => alertBox.style.display = "none", 2500);
       });
     }
   </script>
-
 </body>
 </html>
