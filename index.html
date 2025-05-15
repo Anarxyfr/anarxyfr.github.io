@@ -14,9 +14,16 @@
       padding: 2rem;
     }
 
+    #logo {
+      width: 120px;
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+
     h1 {
       font-size: 3rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
     }
 
     .sub {
@@ -62,25 +69,86 @@
       color: #666;
       font-size: 0.9rem;
     }
+
+    .alert {
+      display: none;
+      background-color: #22c55e;
+      color: black;
+      padding: 0.7rem;
+      font-weight: bold;
+      border-radius: 6px;
+      width: fit-content;
+      margin: 0 auto 1.5rem auto;
+      animation: fadein 0.5s ease;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .news {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid #333;
+    }
+
+    .news h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .news p {
+      color: #ccc;
+      font-size: 1rem;
+      margin: 0.5rem 0;
+    }
+
+    .banner {
+      margin: 1.5rem auto;
+      background-color: #ff8800;
+      color: #000;
+      font-weight: bold;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      width: fit-content;
+      display: inline-block;
+    }
   </style>
 </head>
 <body>
+
+  <img id="logo" src="gooner.jpg" alt="GOONSMP Logo">
+
   <h1>GOONSMP</h1>
-  <p class="sub">The hardest lifesteal server out. Join now.</p>
+  <p class="sub">The realest lifesteal server out. Join now.</p>
+
+  <div id="alert" class="alert">Copied!</div>
 
   <div class="ip" onclick="copyIP()">play.goonsmp.plus</div>
   <p style="margin-top: 0.5rem;">Click to copy</p>
 
   <a class="discord" href="https://discord.gg/yourserver" target="_blank">Join the Discord</a>
 
-  <footer>&copy; 2025 GOONSMP. Built for the goons.</footer>
+  <div class="news">
+    <h2>📰 News</h2>
+    <div class="banner">Server resets every 6 months</div>
+    <p><strong>First 5 players</strong> to join can become <strong>server mods</strong> and may earn <strong>OP access</strong>. Get in early and rise with the goons.</p>
+  </div>
+
+  <footer>&copy; 2025 GOONSMP. No rules, only goons.</footer>
 
   <script>
     function copyIP() {
-      navigator.clipboard.writeText("play.goonsmp.plus")
-        .then(() => alert("IP copied to clipboard!"))
-        .catch(() => alert("Failed to copy IP"));
+      navigator.clipboard.writeText("play.goonsmp.plus").then(() => {
+        const alertBox = document.getElementById("alert");
+        alertBox.style.display = "block";
+        setTimeout(() => {
+          alertBox.style.display = "none";
+        }, 2500);
+      });
     }
   </script>
+
 </body>
 </html>
