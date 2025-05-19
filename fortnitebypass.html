@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fortnite Chat Bypass Tool</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      padding: 2rem;
+    }
+    h1 {
+      color: #58a6ff;
+    }
+    textarea, input, button {
+      width: 100%;
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: none;
+    }
+    textarea {
+      height: 8rem;
+    }
+    button {
+      background-color: #238636;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Fortnite Chat Bypass Generator</h1>
+  <label for="inputText">Enter your message:</label>
+  <textarea id="inputText" placeholder="Type your sentence here..."></textarea>
+  <button onclick="bypassText()">Generate Bypassed Version</button>
+  <label for="outputText">Bypassed Output:</label>
+  <textarea id="outputText" readonly></textarea>
+
+  <script>
+    const homoglyphMap = {
+      'a': ['a', 'а', 'ɑ', 'α'],
+      'b': ['b', 'Ь', 'Ƅ'],
+      'c': ['c', 'ᴄ', 'ϲ', 'с'],
+      'd': ['d', 'ԁ', 'ԃ'],
+      'e': ['e', 'е', '℮'],
+      'f': ['f', 'ғ', 'ƒ'],
+      'g': ['g', 'ɡ', 'ɢ'],
+      'h': ['h', 'һ', 'н'],
+      'i': ['i', 'і', 'ɩ'],
+      'j': ['j', 'ј'],
+      'k': ['k', 'κ', 'ᴋ'],
+      'l': ['l', 'ʟ', 'ӏ'],
+      'm': ['m', 'м'],
+      'n': ['n', 'п', 'ո'],
+      'o': ['o', 'о', 'օ', 'σ'],
+      'p': ['p', 'р', 'ρ'],
+      'q': ['q', 'զ'],
+      'r': ['r', 'г', 'ᴦ'],
+      's': ['s', 'ѕ', 'ꜱ'],
+      't': ['t', 'т', 'τ'],
+      'u': ['u', 'υ', 'ᴜ'],
+      'v': ['v', 'ѵ', 'ν'],
+      'w': ['w', 'ѡ'],
+      'x': ['x', 'х', '×'],
+      'y': ['y', 'у', 'ү'],
+      'z': ['z', 'ᴢ', 'ʐ']
+    };
+
+    function bypassText() {
+      const input = document.getElementById("inputText").value;
+      let result = '';
+      for (let char of input) {
+        const lowerChar = char.toLowerCase();
+        if (homoglyphMap[lowerChar]) {
+          const glyphs = homoglyphMap[lowerChar];
+          const replacement = glyphs[Math.floor(Math.random() * glyphs.length)];
+          result += (char === char.toUpperCase()) ? replacement.toUpperCase() : replacement;
+        } else {
+          result += char;
+        }
+      }
+      document.getElementById("outputText").value = result;
+    }
+  </script>
+</body>
+</html>
