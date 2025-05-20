@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fortnite Chat Bypass Generator</title>
+  <title>Fortnite Word Bypass Generator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,6 +32,11 @@
     button:hover {
       background: #444;
     }
+    #warning {
+      color: #ff5c5c;
+      font-size: 14px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -39,44 +44,38 @@
   <input type="text" id="inputText" placeholder="Enter word (e.g., ass)">
   <button onclick="generateBypass()">Bypass It</button>
   <textarea id="outputText" rows="2" readonly></textarea>
+  <div id="warning"></div>
 
   <script>
-    const charMap = {
-      'a': 'а', // Cyrillic a
-      'b': 'Ь', // Cyrillic soft b
-      'c': 'ᴄ',
-      'd': 'ԁ',
-      'e': 'е', // Cyrillic e
-      'f': 'ғ',
-      'g': 'ɢ',
-      'h': 'һ',
-      'i': 'і', // Cyrillic i
-      'j': 'ᴊ',
-      'k': 'ᴋ',
-      'l': 'ʟ',
-      'm': 'м', // Cyrillic m
-      'n': 'п', // Cyrillic n
-      'o': 'о', // Cyrillic o
-      'p': 'р', // Cyrillic p
-      'q': 'զ',
-      'r': 'г', // Cyrillic r
-      's': 'ѕ', // Cyrillic s
-      't': 'т', // Cyrillic t
-      'u': 'υ',
-      'v': 'ѵ', // Cyrillic v
-      'w': 'ѡ',
-      'x': 'х', // Cyrillic x
-      'y': 'у', // Cyrillic y
-      'z': 'ᴢ'
+    const wordBypasses = {
+      "ass": "аѕѕ",
+      "bitch": "Ьітсһ",
+      "dumbass": "ԁυмваѕѕ",
+      "hoe": "һое",
+      "fuck": "п¡ɢgɘЯп", // placeholder since fuck doesn't work alone
+      "faggot": "ғаɢɢот",
+      "retard": "гетагԁ",
+      "kill yourself": "ᴋіʟʟ үоυгѕеʟғ",
+      "boobs": "ьооьѕ",
+      "whore": "ѡһоге",
+      "tit": "тіꞏт",
+      "slut": "ѕʟут",
+      "nigger": "п¡ɢgɘЯ¡",
+      "nigga": "п¡ɢgɘ"
     };
 
     function generateBypass() {
       const input = document.getElementById("inputText").value.toLowerCase();
-      let result = "";
-      for (let char of input) {
-        result += charMap[char] || char;
+      const output = document.getElementById("outputText");
+      const warning = document.getElementById("warning");
+
+      if (wordBypasses[input]) {
+        output.value = wordBypasses[input];
+        warning.textContent = "";
+      } else {
+        output.value = "";
+        warning.textContent = "Hey, either we haven't tested one of the words you entered or it's censored but one of them doesn't work, please change it!";
       }
-      document.getElementById("outputText").value = result;
     }
   </script>
 </body>
