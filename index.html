@@ -1,98 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GOONSMP - Anarchy Survival</title>
-
-  <!-- 🔗 Open Graph tags for Discord embeds -->
-  <meta property="og:title" content="GOONSMP - Anarchy Survival Server" />
-  <meta property="og:description" content="Raw anarchy Minecraft server. PvP enabled. No hacking. Crossplay supported. Goon with us." />
-  <meta property="og:image" content="https://goonsmp.net/gooner.jpg" />
-  <meta property="og:url" content="https://goonsmp.net/" />
-  <meta property="og:type" content="website" />
-
-  <!-- 🐦 Twitter card (fallback) -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="GOONSMP - Anarchy Survival Server" />
-  <meta name="twitter:description" content="Raw anarchy Minecraft server. PvP enabled. No hacking. Crossplay supported." />
-  <meta name="twitter:image" content="https://goonsmp.net/gooner.jpg" />
-
+  <title>Request Monitor</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: #eee;
-      text-align: center;
-    }
-    header {
-      background-color: #222;
-      padding: 40px 0;
-    }
-    header h1 {
-      font-size: 3rem;
-      margin: 0;
-      color: #f44336;
-    }
-    header p {
-      font-size: 1.25rem;
-      color: #aaa;
-    }
-    .info {
-      margin: 50px auto;
-      max-width: 800px;
-      padding: 20px;
-      background-color: #1a1a1a;
-      border-radius: 10px;
-    }
-    .info h2 {
-      color: #4caf50;
-    }
-    .ip-block {
-      background-color: #333;
-      padding: 15px;
-      border-radius: 8px;
-      margin: 15px 0;
-      font-size: 1.1rem;
-      font-family: monospace;
-    }
-    footer {
-      background-color: #222;
-      padding: 20px;
-      font-size: 0.9rem;
-      color: #666;
-    }
+    body { background: #111; color: #0f0; font-family: monospace; padding: 20px; }
+    h1 { color: #0ff; }
+    .stats { margin-top: 20px; }
+    .stat { margin-bottom: 10px; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>GOONSMP</h1>
-    <p>True Anarchy - PvP Enabled - No Hacking Allowed</p>
-  </header>
+  <h1>📡 Live Request Stats</h1>
+  <div class="stats">
+    <div class="stat">HTTP Requests: <span id="httpCount">0</span></div>
+    <div class="stat">TCP Requests: <span id="tcpCount">0</span></div>
+    <div class="stat">UDP Requests: <span id="udpCount">0</span></div>
+  </div>
 
-  <section class="info">
-    <h2>Welcome to GOONSMP</h2>
-    <p>GOONSMP is a raw anarchy server where players are free to do whatever they want... except hack. Build, fight, betray, survive — just don’t cheat.</p>
+  <script>
+    async function fetchStats() {
+      const res = await fetch('https://your-api.com/request-stats'); // Replace with real API
+      const data = await res.json();
 
-    <div class="ip-block">
-      <strong>Java IP:</strong><br>
-      goonsmp.playit.plus
-    </div>
+      document.getElementById('httpCount').textContent = data.http;
+      document.getElementById('tcpCount').textContent = data.tcp;
+      document.getElementById('udpCount').textContent = data.udp;
+    }
 
-    <div class="ip-block">
-      <strong>Bedrock IP & Port:</strong><br>
-      bedrock.goonsmp.playit.plus:1979
-    </div>
-
-    <p><strong>🔥 Opening Week Special:</strong><br>
-    For the first month anti xray will be <strong>DISABLED</strong> so do what you can!</p>
-
-    <p>Goon with us. Trust no one.</p>
-  </section>
-
-  <footer>
-    &copy; 2025 GOONSMP. All rights reserved.
-  </footer>
+    setInterval(fetchStats, 1000);
+  </script>
 </body>
 </html>
