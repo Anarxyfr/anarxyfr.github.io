@@ -1,67 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="author" content="anarxyfr">
-  <title>Anarxyfr</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background: #0d0d0d;
-      color: #f2f2f2;
-      font-family: 'Courier New', monospace;
-      padding: 40px;
-      line-height: 1.6;
+      background-color: #1a1a1a;
+      color: #e5e7eb;
+      font-family: 'Inter', sans-serif;
     }
-    h1, h2 {
-      color: #00ff88;
+    .section-heading {
+      background: linear-gradient(to right, #3b82f6, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    a {
-      color: #1eaaf1;
-      text-decoration: none;
+    .project-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    a:hover {
-      text-decoration: underline;
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
     }
-    .terminal-box {
-      background: #111;
-      padding: 20px;
-      border: 1px solid #333;
-      margin-top: 30px;
+    .social-link {
+      transition: color 0.3s ease;
+    }
+    .social-link:hover {
+      color: #3b82f6;
     }
   </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col items-center justify-center">
+  <div class="max-w-4xl w-full px-6 py-12">
+    <!-- Header Section -->
+    <header class="text-center mb-12">
+      <h1 class="text-4xl font-bold section-heading">Hi, I'm anarxy</h1>
+      <p class="mt-4 text-lg text-gray-400">A passionate creator building cool stuff.</p>
+    </header>
 
-  <h1>$ whoami</h1>
-  <p>anarxyfr – low-level dev, systems kid, binary bender.</p>
+    <!-- About Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold section-heading mb-4">About Me</h2>
+      <p class="text-gray-300 leading-relaxed">
+        I'm anarxy, a student/dev with a love for crafting innovative solutions. I specialize in ai, networking, low level development and more!
+        I'm always excited to learn new technologies and tackle challenging projects.
+      </p>
+    </section>
 
-  <h2>$ tech_stack</h2>
-  <div class="terminal-box">
-    C, C++, C#, Python, NASM, HTML, JS<br>
-    OSDev | Bootloaders | Custom kernels | VGA hacks
+    <!-- Socials Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold section-heading mb-4">Connect with Me</h2>
+      <div class="flex space-x-6 justify-center">
+        <a href="https://tiktok.com/@anarxyyfr" class="social-link text-gray-300 hover:text-blue-500" target="_blank">TikTok</a>
+        <a href="https://github.com/Anarxyfr" class="social-link text-gray-300 hover:text-blue-500" target="_blank">GitHub</a>
+        <a href="https://www.youtube.com/@anarxy" class="social-link text-gray-300 hover:text-blue-500" target="_blank">Youtube</a>
+        <a href="mailto:anarxybusiness@gmail.com" class="social-link text-gray-300 hover:text-blue-500">Email</a>
+      </div>
+    </section>
+
+    <!-- Interests Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold section-heading mb-4">What I Love Doing</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300">
+        <li class="bg-gray-800 p-4 rounded-lg">Coding creative web applications</li>
+        <li class="bg-gray-800 p-4 rounded-lg">Exploring new tech trends</li>
+        <li class="bg-gray-800 p-4 rounded-lg">Designing intuitive user interfaces</li>
+        <li class="bg-gray-800 p-4 rounded-lg">Solving complex problems</li>
+      </ul>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold section-heading mb-4">My Projects</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="project-card bg-gray-800 p-6 rounded-lg">
+          <h3 class="text-xl font-bold text-blue-400">Project One</h3>
+          <p class="text-gray-300 mt-2">A web app that [briefly describe what it does]. Built with [technologies used, e.g., React, Node.js].</p>
+          <a href="https://project-one-link.com" class="text-blue-500 mt-4 inline-block" target="_blank">View Project</a>
+        </div>
+        <div class="project-card bg-gray-800 p-6 rounded-lg">
+          <h3 class="text-xl font-bold text-blue-400">Project Two</h3>
+          <p class="text-gray-300 mt-2">A tool for [briefly describe what it does]. Created using [technologies used, e.g., Python, Flask].</p>
+          <a href="https://project-two-link.com" class="text-blue-500 mt-4 inline-block" target="_blank">View Project</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center text-gray-500 mt-12">
+      <p>&copy; 2025 [Your Name]. All rights reserved.</p>
+    </footer>
   </div>
 
-  <h2>$ projects</h2>
-  <ul>
-    <li><strong>ostest:</strong> <em>Bootloader → Kernel → Shell</em></li>
-    <li><strong>shape_test.asm:</strong> <em>Draws shapes via VGA memory in real-mode</em></li>
-    <li><strong>web-mess:</strong> <em>Browser-based experiments</em></li>
-  </ul>
-
-  <h2>$ socials</h2>
-  <ul>
-    <li><a href="https://www.tiktok.com/@anarxyyfr" target="_blank">TikTok</a></li>
-    <li><a href="https://www.youtube.com/@Anarxy" target="_blank">YouTube</a></li>
-    <li><a href="https://github.com/anarxyfr" target="_blank">GitHub</a></li>
-  </ul>
-
-  <h2>$ now</h2>
-  <p>Working on paging, interrupts, and OS structure from scratch.<br>
-  Making the CPU dance to my code.</p>
-
-  <footer style="margin-top: 60px; font-size: 0.8em; color: #666;">
-    &copy; 2025 anarxyfr — built from silicon and spite
-  </footer>
+  <script>
+    // Simple scroll animation for project cards
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = 'translateY(-5px)';
+          card.style.boxShadow = '0 10px 20px rgba(59, 130, 246, 0.3)';
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'translateY(0)';
+          card.style.boxShadow = 'none';
+        });
+      });
+    });
+  </script>
 </body>
 </html>
